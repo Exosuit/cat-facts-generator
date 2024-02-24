@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Stack, Text, Button } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Generator = () => {
   const [catFact, setCatFact] = useState("");
-
-  useEffect(() => {
-    fetchRandomCatFact();
-  }, []);
+  const [error, setError] = useState(null);
 
   const fetchRandomCatFact = async () => {
     try {
       const response = await axios.get("https://catfact.ninja/fact");
       setCatFact(response.data.fact);
+      setError(null); // Reset error state if successful
     } catch (error) {
       console.error("Error fetching cat fact:", error);
     }
+  };
+
+  const playSound = () => {
+    const audio = new Audio("/meow.mp3");
+    audio.play();
   };
 
   return (
@@ -25,7 +28,6 @@ const Generator = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.75 }}
       direction={"column"}
       align={"center"}
       justify={"center"}
@@ -88,7 +90,15 @@ const Generator = () => {
           )}
         </AnimatePresence>
       </Stack>
-      <Button onClick={fetchRandomCatFact}>Generate</Button>
+      {error && <Text color="red">{error}</Text>}
+      <Button
+        onClick={() => {
+          fetchRandomCatFact();
+          playSound();
+        }}
+      >
+        Generate
+      </Button>
     </Stack>
   );
 };

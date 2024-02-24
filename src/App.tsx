@@ -1,5 +1,4 @@
-import React from "react";
-import { ChakraProvider, Stack, Text } from "@chakra-ui/react";
+import { ChakraProvider, Stack } from "@chakra-ui/react";
 import Generator from "./Generator";
 
 const App = () => {
