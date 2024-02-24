@@ -5,13 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Generator = () => {
   const [catFact, setCatFact] = useState("");
-  const [error, setError] = useState(null);
 
   const fetchRandomCatFact = async () => {
     try {
       const response = await axios.get("https://catfact.ninja/fact");
       setCatFact(response.data.fact);
-      setError(null); // Reset error state if successful
     } catch (error) {
       console.error("Error fetching cat fact:", error);
     }
@@ -52,7 +50,7 @@ const Generator = () => {
           Cat Facts Generator
         </Text>
       </Stack>
-      <Stack
+      <Stack // Text box container
         direction={"column"}
         align={"center"}
         w={["100%", "100%", "80%", "80%", "80%"]}
@@ -69,7 +67,7 @@ const Generator = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.25 }}
             >
               <Stack
                 rounded={[null, null, "2xl", "2xl", "2xl"]}
@@ -90,7 +88,6 @@ const Generator = () => {
           )}
         </AnimatePresence>
       </Stack>
-      {error && <Text color="red">{error}</Text>}
       <Button
         onClick={() => {
           fetchRandomCatFact();
