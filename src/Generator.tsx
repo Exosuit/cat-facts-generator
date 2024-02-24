@@ -5,11 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Generator = () => {
   const [catFact, setCatFact] = useState("");
-  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
     fetchRandomCatFact();
-    setShowButton(true);
   }, []);
 
   const fetchRandomCatFact = async () => {
@@ -44,7 +42,11 @@ const Generator = () => {
         roundedTop={"2xl"}
         gap={0}
       >
-        <Text fontWeight={"bold"} fontSize={["xl", "xl", "4xl", "4xl", "4xl"]}>
+        <Text
+          px={"1em"}
+          fontWeight={"bold"}
+          fontSize={["xl", "xl", "4xl", "4xl", "4xl"]}
+        >
           Cat Facts Generator
         </Text>
       </Stack>
@@ -61,6 +63,7 @@ const Generator = () => {
         <AnimatePresence>
           {catFact && (
             <motion.div
+              key={catFact} // Ensure proper animation when catFact changes
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -85,18 +88,7 @@ const Generator = () => {
           )}
         </AnimatePresence>
       </Stack>
-      <AnimatePresence>
-        {showButton && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Button onClick={fetchRandomCatFact}>Generate</Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <Button onClick={fetchRandomCatFact}>Generate</Button>
     </Stack>
   );
 };
